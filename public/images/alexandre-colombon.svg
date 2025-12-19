@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Retrato de Alexandre Colombon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f5f7fb" />
+      <stop offset="100%" stop-color="#dbe4f2" />
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" fill="url(#bg)" />
+  <circle cx="100" cy="70" r="55" fill="#f8e7db" />
+  <path d="M60 145c10-28 30-44 40-44h0c10 0 30 16 40 44 0 0-22 15-40 15s-40-15-40-15z" fill="#1e2a37" />
+  <path d="M70 142c8-14 21-22 30-22s22 8 30 22c-7 5-21 11-30 11s-23-6-30-11z" fill="#0f1621" />
+  <path d="M80 132c0-6 5-11 11-11h18c6 0 11 5 11 11l-16 24h-8l-16-24z" fill="#f4f6fb" />
+  <rect x="97" y="133" width="6" height="20" fill="#7da6d7" />
+  <path d="M70 80c3 15 8 30 30 30s27-15 30-30V60c0-17-13-32-30-32-17 0-30 15-30 32v20z" fill="#f6d9c6" />
+  <path d="M70 72c5 6 17 10 30 10s25-4 30-10v-7c0-18-13-33-30-33s-30 15-30 33v7z" fill="#2a2b35" />
+  <path d="M125 47c-9 5-21 7-25 7-10 0-21-3-25-7 4-9 14-15 25-15 12 0 22 6 25 15z" fill="#30323d" />
+  <circle cx="118" cy="78" r="4" fill="#2b211a" />
+  <circle cx="83" cy="78" r="4" fill="#2b211a" />
+  <path d="M100 94c4 0 8-2 9-4H91c1 2 5 4 9 4z" fill="#dfb8a2" />
+  <path d="M92 108c3 3 7 5 8 5s5-2 8-5" stroke="#d39f7a" stroke-width="2" fill="none" stroke-linecap="round" />
+</svg>
