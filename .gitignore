@@ -1,0 +1,13 @@
+# Dependencias y builds
+node_modules/
+dist/
+build/
+.cache/
+
+# Entornos
+.env
+.env.*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
