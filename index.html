@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kincode - Culture Intelligence Platform</title>
+    <meta name="description" content="Transforma la cultura de tu empresa con inteligencia artificial. Mide, analiza y optimiza la experiencia de tus empleados con Kincode.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Animation Library -->
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-navy: #1E293B;
+            --secondary-coral: #FF6B6B;
+            --accent-sage: #6EE7B7;
+            --text-charcoal: #374151;
+            --text-gray: #6B7280;
+            --bg-light: #FEFEFE;
+            --border-light: #E5E7EB;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-charcoal);
+        }
+        
+        .hero-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(110, 231, 183, 0.15) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-coral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-coral) 0%, #FF8E8E 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-coral);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-coral);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .metric-counter {
+            font-weight: 700;
+            color: var(--secondary-coral);
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, var(--accent-sage) 0%, #A7F3D0 100%);
+        }
+        
+        .pricing-card {
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            border-color: var(--secondary-coral);
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--secondary-coral);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.02) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold gradient-text">Kincode</div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#product" class="nav-link text-gray-700 hover:text-gray-900">Producto</a>
+                    <a href="#solutions" class="nav-link text-gray-700 hover:text-gray-900">Soluciones</a>
+                    <a href="#pricing" class="nav-link text-gray-700 hover:text-gray-900">Precios</a>
+                    <a href="#resources" class="nav-link text-gray-700 hover:text-gray-900">Recursos</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-gray-900">Empresa</a>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#login" class="text-gray-700 hover:text-gray-900 transition-colors">Login</a>
+                    <a href="#demo" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">Comenzar prueba</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 py-2 space-y-2">
+                <a href="#product" class="block py-2 text-gray-700 hover:text-gray-900">Producto</a>
+                <a href="#solutions" class="block py-2 text-gray-700 hover:text-gray-900">Soluciones</a>
+                <a href="#pricing" class="block py-2 text-gray-700 hover:text-gray-900">Precios</a>
+                <a href="#resources" class="block py-2 text-gray-700 hover:text-gray-900">Recursos</a>
+                <a href="#about" class="block py-2 text-gray-700 hover:text-gray-900">Empresa</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern min-h-screen flex items-center pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="text-5xl lg:text-6xl font-bold leading-tight">
+                            <span class="gradient-text">Culture Intelligence</span><br>
+                            <span class="text-gray-900">That Works</span>
+                        </h1>
+                        <p class="text-xl text-gray-600 leading-relaxed max-w-lg">
+                            Transforma la cultura de tu empresa con IA. Mide, analiza y optimiza la experiencia de tus empleados con datos en tiempo real.
+                        </p>
+                    </div>
+                    
+                    <!-- Social Proof -->
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center space-x-2">
+                            <div class="flex text-yellow-400">
+                                <span>★★★★★</span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.8/5</span>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <span class="font-semibold">500+</span> empresas confían en Kincode
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Form -->
+                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                        <form class="space-y-4" id="hero-form">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <input type="email" placeholder="Tu email corporativo" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-500 focus:border-transparent">
+                                <input type="text" placeholder="Nombre de empresa" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-500 focus:border-transparent">
+                            </div>
+                            <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-medium">
+                                Comenzar prueba gratis
+                            </button>
+                            <p class="text-xs text-gray-500 text-center">
+                                14 días gratis • Sin tarjeta de crédito • Cancela cuando quieras
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Right Content - Dashboard Mockup -->
+                <div class="relative">
+                    <div class="bg-white rounded-2xl shadow-2xl p-6 border border-gray-100">
+                        <!-- Dashboard Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Culture Analytics</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span class="text-sm text-gray-600">Live</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Metrics Grid -->
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-2xl font-bold text-gray-900">87%</div>
+                                <div class="text-sm text-gray-600">Engagement Rate</div>
+                                <div class="text-xs text-green-600 mt-1">↑ 12% este mes</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-2xl font-bold text-gray-900">4.2</div>
+                                <div class="text-sm text-gray-600">Culture Score</div>
+                                <div class="text-xs text-green-600 mt-1">↑ 0.3 este mes</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart Container -->
+                        <div id="dashboard-chart" class="h-48"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Empresas que transforman su cultura con Kincode</h2>
+                <p class="text-lg text-gray-600">Únete a miles de empleados que confían en nuestra plataforma</p>
+            </div>
+            
+            <!-- Company Logos -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-60">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-400">Qaracter</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-400">Inversimply</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-400">Namenics Education</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-400">Taxdown</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-400">Letters</div>
+                </div>
+            </div>
+            
+            <!-- Testimonials -->
+            <div class="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="testimonial-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Alexandre Colombon</div>
+                            <div class="text-sm text-gray-600">Commercial Director @ qaracter</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">
+                        "Kincode nos ha ayudado a mejorar nuestra cultura organizacional facilitando conexiones más fuertes entre equipos y alineando nuestros valores con objetivos estratégicos."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <div class="font-semibold text-gray-900">Belisario Moneta</div>
+                            <div class="text-sm text-gray-600">COO @ Inversimply</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">
+                        "Lo que más valoro de Kincode es su capacidad para proporcionar insights en tiempo real sobre los empleados. Siempre sabemos cómo se sienten y qué necesitan."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card rounded-xl p-6 md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <div class="font-semibold text-gray-900">María González</div>
+                            <div class="text-sm text-gray-600">HR Director @ TechFlow</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">
+                        "La implementación fue rápida y el equipo de Kincode nos acompañó en todo el proceso. Los resultados fueron visibles desde el primer mes."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="product" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Todo lo que necesitas para transformar tu cultura
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Plataforma integral de People Analytics que combina mediciones en tiempo real, inteligencia artificial y insights accionables.
+                </p>
+            </div>
+            
+            <div class="space-y-16">
+                <!-- Feature 1 -->
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-900">Métricas en Tiempo Real</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Obtén insights instantáneos sobre engagement, satisfacción y métricas de liderazgo. Nuestro dashboard te muestra exactamente lo que necesitas saber, cuando lo necesitas.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Dashboard personalizable por rol y departamento
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Alertas automáticas para cambios significativos
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Exportación en múltiples formatos
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-8">
+                        <div id="metrics-chart" class="h-64"></div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="bg-gray-50 rounded-xl p-8 order-2 lg:order-1">
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Equipo de Ventas</span>
+                                    <span class="text-sm text-green-600">+15%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Equipo de Marketing</span>
+                                    <span class="text-sm text-green-600">+8%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Equipo de IT</span>
+                                    <span class="text-sm text-red-600">-3%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-red-500 h-2 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6 order-1 lg:order-2">
+                        <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-900">Inteligencia Artificial Avanzada</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Nuestra IA analiza patrones ocultos, identifica riesgos culturales y sugiere intervenciones personalizadas basadas en datos de tu organización.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Predicción de rotación con 85% de precisión
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Recomendaciones personalizadas por equipo
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Análisis de sentimiento en comunicaciones
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-900">Respuestas en 1 Click</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Olvídate de las encuestas largas. Con Kincode, tus empleados responden con un solo clic desde las herramientas que ya usan: Slack, Teams, Email.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Tasa de respuesta >75% promedio
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Integración con +20 herramientas
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Mensajes en el momento óptimo
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-8">
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-white text-sm font-bold">S</span>
+                                    </div>
+                                    <span class="font-medium text-gray-900">Slack</span>
+                                </div>
+                                <p class="text-sm text-gray-600">"¿Cómo te sientes hoy en tu trabajo?"</p>
+                                <div class="flex items-center mt-3 space-x-2">
+                                    <button class="px-3 py-1 bg-green-100 text-green-800 rounded text-sm">😊 Excelente</button>
+                                    <button class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded text-sm">😐 Regular</button>
+                                    <button class="px-3 py-1 bg-red-100 text-red-800 rounded text-sm">😔 Mal</button>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-white text-sm font-bold">T</span>
+                                    </div>
+                                    <span class="font-medium text-gray-900">Microsoft Teams</span>
+                                </div>
+                                <p class="text-sm text-gray-600">"¿Qué tan alineado te sientes con los valores de la empresa?"</p>
+                                <div class="flex items-center mt-3 space-x-2">
+                                    <button class="px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm">1-10</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="scroll-reveal">
+                    <div class="metric-counter text-5xl font-bold mb-2" data-target="62">0</div>
+                    <div class="text-lg text-gray-600">% de empleados dejan su trabajo por cultura tóxica</div>
+                    <div class="text-sm text-gray-500 mt-2">Fuente: Harvard Business Review</div>
+                </div>
+                <div class="scroll-reveal">
+                    <div class="metric-counter text-5xl font-bold mb-2" data-target="71">0</div>
+                    <div class="text-lg text-gray-600">% aceptarían reducción salarial por cultura mejor</div>
+                    <div class="text-sm text-gray-500 mt-2">Fuente: LinkedIn Workforce Report</div>
+                </div>
+                <div class="scroll-reveal">
+                    <div class="metric-counter text-5xl font-bold mb-2" data-target="66">0</div>
+                    <div class="text-lg text-gray-600">% de CxOs creen que cultura > estrategia</div>
+                    <div class="text-sm text-gray-500 mt-2">Fuente: Deloitte Culture Study</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Planes para cada etapa de tu empresa</h2>
+                <p class="text-xl text-gray-600">Comienza gratis y escala según tus necesidades</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="pricing-card bg-white rounded-xl p-8 shadow-lg">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+                        <p class="text-gray-600">Para equipos pequeños</p>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-gray-900">€0</span>
+                            <span class="text-gray-600">/mes</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Hasta 50 empleados
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Métricas básicas
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Integración básica
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Soporte por email
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        Comenzar gratis
+                    </button>
+                </div>
+                
+                <!-- Professional Plan -->
+                <div class="pricing-card featured bg-white rounded-xl p-8 shadow-lg relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-medium">Más popular</span>
+                    </div>
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
+                        <p class="text-gray-600">Para empresas en crecimiento</p>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-gray-900">€8</span>
+                            <span class="text-gray-600">/empleado/mes</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Hasta 500 empleados
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            IA y análisis avanzado
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Integraciones completas
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Soporte prioritario
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Reportes personalizados
+                        </li>
+                    </ul>
+                    <button class="w-full btn-primary text-white py-3 rounded-lg font-medium">
+                        Comenzar prueba gratis
+                    </button>
+                </div>
+                
+                <!-- Enterprise Plan -->
+                <div class="pricing-card bg-white rounded-xl p-8 shadow-lg">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                        <p class="text-gray-600">Para grandes organizaciones</p>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-gray-900">Custom</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Empleados ilimitados
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Todas las features
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            On-premise opcional
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Soporte 24/7
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Implementation manager
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        Contactar ventas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Preguntas frecuentes</h2>
+                <p class="text-xl text-gray-600">Todo lo que necesitas saber sobre Kincode</p>
+            </div>
+            
+            <div class="space-y-6">
+                <details class="bg-white rounded-lg shadow-sm">
+                    <summary class="p-6 cursor-pointer font-semibold text-gray-900 hover:text-red-500 transition-colors">
+                        ¿Cuánto tiempo toma implementar Kincode en mi empresa?
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>La implementación de Kincode es rápida y directa. Dependiendo del tamaño de tu empresa y las integraciones necesarias, podemos tener todo funcionando en 2-4 semanas. Nuestro equipo de Customer Success te acompaña en todo el proceso.</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-lg shadow-sm">
+                    <summary class="p-6 cursor-pointer font-semibold text-gray-900 hover:text-red-500 transition-colors">
+                        ¿Kincode está disponible en múltiples idiomas?
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>Sí, la plataforma está disponible en español, inglés, portugués, francés y alemán. Cada empleado puede configurar su idioma preferido, lo que garantiza una experiencia personalizada para equipos internacionales.</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-lg shadow-sm">
+                    <summary class="p-6 cursor-pointer font-semibold text-gray-900 hover:text-red-500 transition-colors">
+                        ¿Qué tipo de datos puedo analizar con Kincode?
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>Puedes analizar métricas de engagement, satisfacción, clima laboral, retención de talento, efectividad del liderazgo, alineación cultural y mucho más. Nuestros dashboards te muestran tendencias, comparativas y recomendaciones específicas.</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-lg shadow-sm">
+                    <summary class="p-6 cursor-pointer font-semibold text-gray-900 hover:text-red-500 transition-colors">
+                        ¿Cómo protege Kincode los datos de mis empleados?
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>La seguridad es nuestra prioridad. Utilizamos encriptación AES-256, cumplimos con GDPR y tenemos certificaciones ISO 27001. Los datos son anónimos por defecto y puedes configurar niveles de privacidad según tus políticas internas.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-6">¿Listo para transformar tu cultura?</h2>
+            <p class="text-xl text-gray-300 mb-8">
+                Únete a más de 500 empresas que ya confían en Kincode para mejorar la experiencia de sus empleados.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#demo" class="btn-primary text-white px-8 py-4 rounded-lg font-medium text-lg inline-block">
+                    Comenzar prueba gratis
+                </a>
+                <a href="#contact" class="border border-white text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-white hover:text-gray-900 transition-colors inline-block">
+                    Agendar demo
+                </a>
+            </div>
+            <p class="text-sm text-gray-400 mt-6">
+                14 días gratis • Sin tarjeta de crédito • Soporte incluido
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="text-2xl font-bold gradient-text">Kincode</div>
+                    <p class="text-gray-400">
+                        Culture Intelligence Platform que ayuda a empresas a medir, analizar y optimizar su cultura organizacional con IA.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product -->
+                <div>
+                    <h4 class="font-semibold mb-4">Producto</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Plataforma</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Integraciones</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Roadmap</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Seguridad</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-semibold mb-4">Recursos</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Academia</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Documentación</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Case Studies</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company -->
+                <div>
+                    <h4 class="font-semibold mb-4">Empresa</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Sobre nosotros</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Carreras</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Prensa</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Kincode SL. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
